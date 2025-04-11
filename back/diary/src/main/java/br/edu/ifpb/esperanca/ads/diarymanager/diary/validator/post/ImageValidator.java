@@ -4,6 +4,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.exception.ImageUrlInvalidException;
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.validator.IValidator;
 
 public class ImageValidator implements IValidator<String> {
@@ -19,7 +20,7 @@ public class ImageValidator implements IValidator<String> {
 
             return;
         } catch (Exception e) {
-            throw new IllegalArgumentException("image URL invalid.");
+            throw new ImageUrlInvalidException();
         }
     }
 }
