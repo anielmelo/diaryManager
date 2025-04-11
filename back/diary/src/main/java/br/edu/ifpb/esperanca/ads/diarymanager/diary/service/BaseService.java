@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.mapper.IMapper;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.service.exception.PostNotFoundException;
 
 public abstract class BaseService<RequestDTO, ResponseDTO, Entity, ID> implements IService<RequestDTO, ResponseDTO, ID> {
 
@@ -25,14 +26,14 @@ public abstract class BaseService<RequestDTO, ResponseDTO, Entity, ID> implement
 
     @Override
     public void update(ID id, RequestDTO requestDTO) {
-        Entity entity = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Entity not found for id", id)));
+        Entity entity = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         // make implementation to update.
         repository.save(entity);
     }
 
     @Override
     public void delete(ID id) {
-        Entity entity = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Entity not found for id: %d", id)));
+        Entity entity = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         repository.delete(entity);
     }
     
@@ -44,7 +45,7 @@ public abstract class BaseService<RequestDTO, ResponseDTO, Entity, ID> implement
     
     @Override
     public ResponseDTO findById(ID id) {
-        Entity entity = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Entity not found for id: %d", id)));
+        Entity entity = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         ResponseDTO responseDTO = mapper.toDTO(entity);
         return responseDTO;
     }

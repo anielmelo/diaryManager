@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.Post;
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.dto.PostRequestDTO;
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.dto.PostResponseDTO;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.service.exception.PostNotFoundException;
 
 @Service
 public class PostService extends BaseService<PostRequestDTO, PostResponseDTO, Post, Long> {
@@ -18,9 +19,9 @@ public class PostService extends BaseService<PostRequestDTO, PostResponseDTO, Po
 
     @Override
     public void update(Long id, PostRequestDTO requestDTO) {
-        Post postToUpdate = repository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Post not found for id: %d", id)));
+        Post postToUpdate = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         
-        String title = requestDTO.text();
+        String title = requestDTO.title();
         String text = requestDTO.text();
         String image = requestDTO.image();
 
