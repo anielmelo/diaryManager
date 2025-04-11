@@ -12,6 +12,18 @@ import br.edu.ifpb.esperanca.ads.diarymanager.diary.dto.PostResponseDTO;
 public class PostMapper implements IMapper<Post, PostRequestDTO, PostResponseDTO> {
 
     @Override
+    public Post updateFromDTO(PostRequestDTO dto, Post entity) {
+        Long id = entity.getId();
+        String title = dto.title();
+        String text = dto.text();
+        String image = dto.image();
+        LocalDateTime date = entity.getDate();
+
+        Post newPost = new Post(id, title, text, image, date);
+        return newPost;
+    }
+
+    @Override
     public Post toEntity(PostRequestDTO dto) {
         String title = dto.title();
         String text = dto.text();
