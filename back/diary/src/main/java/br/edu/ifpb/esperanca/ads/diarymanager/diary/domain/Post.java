@@ -2,6 +2,9 @@ package br.edu.ifpb.esperanca.ads.diarymanager.diary.domain;
 
 import java.time.LocalDateTime;
 
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.validator.post.ImageValidator;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.validator.post.TextValidator;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.validator.post.TitleValidator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +32,7 @@ public class Post {
     private LocalDateTime date;
     
     public Post(Long id, String title, String text, String image, LocalDateTime date) {
+        validatePost(title, text, image);
         this.id = id;
         this.title = title;
         this.text = text;
@@ -37,6 +41,7 @@ public class Post {
     }
     
     public Post(String title, String text, String image, LocalDateTime date) {
+        validatePost(title, text, image);
         this.title = title;
         this.text = text;
         this.image = image;
@@ -80,5 +85,16 @@ public class Post {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+    
+    private void validatePost(String title, String text, String image) {
+        var validateTitle = new TitleValidator();
+        validateTitle.validate(title);
+
+        var validateText = new TextValidator();
+        validateText.validate(text);
+        
+        var validateImage = new ImageValidator();
+        validateImage.validate(image);
     }
 }
