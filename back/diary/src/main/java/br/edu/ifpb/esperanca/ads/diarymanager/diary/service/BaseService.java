@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.swing.text.html.parser.Entity;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.mapper.IMapper;
@@ -13,10 +12,13 @@ import br.edu.ifpb.esperanca.ads.diarymanager.diary.service.exception.PostNotFou
 
 public abstract class BaseService<RequestDTO, ResponseDTO, Entity, ID> implements IService<RequestDTO, ResponseDTO, ID> {
 
-    @Autowired
-    protected JpaRepository<Entity, ID> repository;
-    @Autowired
-    protected IMapper<Entity, RequestDTO, ResponseDTO> mapper;
+    protected final JpaRepository<Entity, ID> repository;
+    protected final IMapper<Entity, RequestDTO, ResponseDTO> mapper;
+
+    protected BaseService(JpaRepository<Entity, ID> repository, IMapper<Entity, RequestDTO, ResponseDTO> mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
     @Override
     public void create(RequestDTO requestDTO) {
@@ -26,9 +28,9 @@ public abstract class BaseService<RequestDTO, ResponseDTO, Entity, ID> implement
 
     @Override
     public void update(ID id, RequestDTO requestDTO) {
-        Entity entity = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
-        // make implementation to update.
-        repository.save(entity);
+        Entity entityOld = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
+        Entity entityNew = mapper.updateFromDTO(requestDTO, entityOld);
+        repository.save(entityNew);
     }
 
     @Override
