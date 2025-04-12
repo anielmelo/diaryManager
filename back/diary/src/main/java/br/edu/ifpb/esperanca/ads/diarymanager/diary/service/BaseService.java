@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.swing.text.html.parser.Entity;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.mapper.IMapper;
@@ -50,6 +52,12 @@ public abstract class BaseService<RequestDTO, ResponseDTO, Entity, ID> implement
         Entity entity = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         ResponseDTO responseDTO = mapper.toDTO(entity);
         return responseDTO;
+    }
+
+    @Override
+    public Page<ResponseDTO> findAllPaged(Pageable pageable) {
+        Page<Entity> page = repository.findAll(pageable);
+        return page.map(mapper::toDTO);
     }
 
 }

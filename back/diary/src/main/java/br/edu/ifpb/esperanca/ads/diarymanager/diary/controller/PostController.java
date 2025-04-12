@@ -3,6 +3,8 @@ package br.edu.ifpb.esperanca.ads.diarymanager.diary.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,5 +53,11 @@ public class PostController {
     public ResponseEntity<List<PostResponseDTO>> getAll() {
         List<PostResponseDTO> postResponseDTOs = serviceImpl.findAll();
         return ResponseEntity.ok().body(postResponseDTOs);
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<PostResponseDTO>> findAllPaged(Pageable pageable) {
+        Page<PostResponseDTO> page = serviceImpl.findAllPaged(pageable);
+        return ResponseEntity.ok().body(page);
     }
 }
