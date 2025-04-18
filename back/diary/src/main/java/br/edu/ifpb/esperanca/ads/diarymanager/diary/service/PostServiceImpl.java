@@ -2,6 +2,7 @@ package br.edu.ifpb.esperanca.ads.diarymanager.diary.service;
 
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.Post;
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.repository.PostRepository;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.service.exception.PostNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,11 @@ public class PostServiceImpl implements IPostService {
     @Override
     public Post findById(Long id) {
         return postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Não foi encontrado nenhum post com o id: " + id));
+            .orElseThrow(() -> new PostNotFoundException(id));
     }
 
     @Override
+    @Transactional
     public Post update(Long id, Post post) {
         Post postToUpdate = findById(id);
 

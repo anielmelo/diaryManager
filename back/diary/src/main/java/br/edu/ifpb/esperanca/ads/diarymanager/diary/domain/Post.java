@@ -5,6 +5,9 @@ import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
 
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.exception.BlankOrNullException;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.exception.ImageUrlInvalidException;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.exception.TitleLengthException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -75,19 +78,23 @@ public class Post {
 
     private void validatePost(String title, String text, String image) {
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("title cannot be null.");
+            throw new BlankOrNullException("title cannot be null or blank.");
         }
-
-        if (title.length() > 25) {
-            throw new IllegalArgumentException("title length cannot be over 25 chars.");
-        }
-
+        
         if (text == null || text.isBlank()) {
-            throw new IllegalArgumentException("text cannot be null.");
+            throw new BlankOrNullException("text cannot be null or blank.");
+        }
+        
+        if (image == null || image.isBlank()) {
+            throw new BlankOrNullException("image cannot be null or blank.");
+        }
+        
+        if (title.length() > 25) {
+            throw new TitleLengthException("title length cannot be over 25 chars.");
         }
 
         if (!validateImageUrl(image)) {
-            throw new IllegalArgumentException("image url invalid.");
+            throw new ImageUrlInvalidException("image url invalid.");
         }
     }
 
