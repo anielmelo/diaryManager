@@ -1,6 +1,5 @@
 package br.edu.ifpb.esperanca.ads.diarymanager.diary.controller.dtos.response;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;

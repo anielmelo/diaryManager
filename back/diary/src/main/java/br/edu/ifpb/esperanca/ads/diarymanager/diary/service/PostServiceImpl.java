@@ -19,8 +19,8 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     @Transactional
-    public Post create(Post entityToCreate) {
-        return postRepository.save(entityToCreate);
+    public Post create(Post post) {
+        return postRepository.save(post);
     }
 
     @Override
@@ -31,22 +31,19 @@ public class PostServiceImpl implements IPostService {
     @Override
     public Post findById(Long id) {
         return postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Não foi encontrado nenhum post com o id: " + id)
-                );
+                .orElseThrow(() -> new RuntimeException("Não foi encontrado nenhum post com o id: " + id));
     }
 
-
     @Override
-    public Post update(Long id, Post entityToUpdate) {
-        Long idPostToUpdate = findById(id).getId();
+    public Post update(Long id, Post post) {
+        Post postToUpdate = findById(id);
 
         Post newPost = new Post(
-                idPostToUpdate,
-                entityToUpdate.getTitle(),
-                entityToUpdate.getText(),
-                entityToUpdate.getImage(),
-                entityToUpdate.getCreatedAt()
-        );
+                postToUpdate.getId(),
+                post.getTitle(),
+                post.getText(),
+                post.getImage(),
+                postToUpdate.getCreatedAt());
 
         return postRepository.save(newPost);
     }
