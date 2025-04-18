@@ -3,6 +3,7 @@ package br.edu.ifpb.esperanca.ads.diarymanager.diary.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ public class PostController implements IBaseController<PostRequestDTO, PostRespo
     private final IBaseMapper<Post, PostResponseDTO, PostRequestDTO> postMapper;
     private final IPostService postService;
     
+    @Autowired
     public PostController(IBaseMapper<Post, PostResponseDTO, PostRequestDTO> postMapper, IPostService postService) {
         this.postMapper = postMapper;
         this.postService = postService;
