@@ -5,6 +5,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +33,8 @@ public class PostController implements IBaseController<PostRequestDTO, PostRespo
     }
 
     @Override
-    public ResponseEntity<PostResponseDTO> create(PostRequestDTO dto) {
+    @PostMapping("/")
+    public ResponseEntity<PostResponseDTO> create(@RequestBody PostRequestDTO dto) {
         Post postToCreate = postMapper.toEntity(dto);
         Post postCreated = postService.create(postToCreate);
         PostResponseDTO postResponse = postMapper.toDTO(postCreated);
@@ -36,12 +43,14 @@ public class PostController implements IBaseController<PostRequestDTO, PostRespo
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         postService.delete(id);
         return ResponseEntity.ok().build();
     }
 
     @Override
+    @GetMapping("/")
     public ResponseEntity<List<PostResponseDTO>> findAll() {
         List<Post> allPosts = postService.findAll();
         List<PostResponseDTO> allPostDtos = allPosts.stream().map(postMapper::toDTO).collect(Collectors.toList());
@@ -49,14 +58,16 @@ public class PostController implements IBaseController<PostRequestDTO, PostRespo
     }
 
     @Override
-    public ResponseEntity<PostResponseDTO> findById(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> findById(@PathVariable Long id) {
         Post post = postService.findById(id);
         PostResponseDTO postResponseDTO = postMapper.toDTO(post);
         return ResponseEntity.ok().body(postResponseDTO);
     }
 
     @Override
-    public ResponseEntity<PostResponseDTO> update(Long id, PostRequestDTO dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> update(@PathVariable Long id, @RequestBody PostRequestDTO dto) {
         Post postToUpdate = postMapper.toEntity(dto);
         Post postUpdated = postService.update(id, postToUpdate);
         PostResponseDTO postResponseDTO = postMapper.toDTO(postUpdated);
