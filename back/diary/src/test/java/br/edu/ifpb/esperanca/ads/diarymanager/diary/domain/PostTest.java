@@ -2,16 +2,22 @@ package br.edu.ifpb.esperanca.ads.diarymanager.diary.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 
-public class PostTest {
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.exception.BlankOrNullException;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.exception.ImageUrlInvalidException;
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.domain.exception.TitleLengthException;
 
+public class PostTest {
+    
     private static final String VALID_IMAGE = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fauditeste.com.br%2Ftestes-manuais%2F&psig=AOvVaw0TMmYWOSmcTcW-YGwzrn8K&ust=1745008446140000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCICb5Jj134wDFQAAAAAdAAAAABAE";
 
     @Test
-    void validCreate() {
-        String title = "Titulo Válido";
-        String text = "Texto de exemplo";
+    void shouldCreatePostWithValidData() {
+        String title = "Valid Title";
+        String text = "Some valid content.";
 
         Post post = new Post(title, text, VALID_IMAGE);
 
@@ -22,71 +28,95 @@ public class PostTest {
     }
 
     @Test
-    void titleNullException() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Post(null, "Texto", VALID_IMAGE);
+    void shouldThrowExceptionWhenTitleIsNull() {
+        BlankOrNullException ex = assertThrows(BlankOrNullException.class, () -> {
+            new Post(null, "Text", VALID_IMAGE);
         });
 
-        assertEquals("title cannot be null.", ex.getMessage());
+        assertEquals("title cannot be null or blank.", ex.getMessage());
     }
 
     @Test
-    void titleBlankException() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Post("   ", "Texto", VALID_IMAGE);
+    void shouldThrowExceptionWhenTitleIsBlank() {
+        BlankOrNullException ex = assertThrows(BlankOrNullException.class, () -> {
+            new Post("   ", "Text", VALID_IMAGE);
         });
 
-        assertEquals("title cannot be null.", ex.getMessage());
+        assertEquals("title cannot be null or blank.", ex.getMessage());
     }
 
     @Test
-    void titleLengthException() {
-        String longTitle = "Este título é muito grande e ultrapassa o limite permitido.";
+    void shouldThrowExceptionWhenTitleIsTooLong() {
+        String longTitle = "This title is way too long to be accepted";
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Post(longTitle, "Texto", VALID_IMAGE);
+        TitleLengthException ex = assertThrows(TitleLengthException.class, () -> {
+            new Post(longTitle, "Text", VALID_IMAGE);
         });
 
         assertEquals("title length cannot be over 25 chars.", ex.getMessage());
     }
 
     @Test
-    void textNullException() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Post("Título", null, VALID_IMAGE);
+    void shouldThrowExceptionWhenTextIsNull() {
+        BlankOrNullException ex = assertThrows(BlankOrNullException.class, () -> {
+            new Post("Title", null, VALID_IMAGE);
         });
 
-        assertEquals("text cannot be null.", ex.getMessage());
+        assertEquals("text cannot be null or blank.", ex.getMessage());
     }
 
     @Test
-    void textBlankException() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Post("Título", "   ", VALID_IMAGE);
+    void shouldThrowExceptionWhenTextIsBlank() {
+        BlankOrNullException ex = assertThrows(BlankOrNullException.class, () -> {
+            new Post("Title", "   ", VALID_IMAGE);
         });
 
-        assertEquals("text cannot be null.", ex.getMessage());
+        assertEquals("text cannot be null or blank.", ex.getMessage());
     }
 
     @Test
-    void imageInvalidException() {
-        String imagemInvalida = "https://invalido.exemplo/naoexiste.png";
+    void shouldThrowExceptionWhenImageIsNull() {
+        BlankOrNullException ex = assertThrows(BlankOrNullException.class, () -> {
+            new Post("Title", "Text", null);
+        });
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Post("Título", "Texto", imagemInvalida);
+        assertEquals("image cannot be null or blank.", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenImageIsBlank() {
+        BlankOrNullException ex = assertThrows(BlankOrNullException.class, () -> {
+            new Post("Title", "Text", "   ");
+        });
+
+        assertEquals("image cannot be null or blank.", ex.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenImageUrlIsInvalid() {
+        String invalidImage = "invalid-url";
+
+        ImageUrlInvalidException ex = assertThrows(ImageUrlInvalidException.class, () -> {
+            new Post("Title", "Text", invalidImage);
         });
 
         assertEquals("image url invalid.", ex.getMessage());
     }
 
     @Test
-    void urlInvalidException() {
-        String imagemNaoUrl = "não-é-uma-url";
+    void shouldCreatePostWithAllFields() {
+        Long id = 1L;
+        String title = "Title";
+        String text = "Content";
+        String image = VALID_IMAGE;
+        LocalDateTime createdAt = LocalDateTime.now();
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            new Post("Título", "Texto", imagemNaoUrl);
-        });
+        Post post = new Post(id, title, text, image, createdAt);
 
-        assertEquals("image url invalid.", ex.getMessage());
+        assertEquals(id, post.getId());
+        assertEquals(title, post.getTitle());
+        assertEquals(text, post.getText());
+        assertEquals(image, post.getImage());
+        assertEquals(createdAt, post.getCreatedAt());
     }
 }
