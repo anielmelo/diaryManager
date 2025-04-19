@@ -1,9 +1,41 @@
 services:
-  diary_databse:
-    image: mysql:8.0
+  api:
+    container_name: api_diary_run
+    build:
+      context: ./back/diary
+      dockerfile: Dockerfile.spring
     ports:
-      - "5005:3306"
-    container_name: diary_mysql
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/diary
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    restart: unless-stopped
+
+  api-test:
+    container_name: api_diary_test
+    profiles:
+      - test
+    image: maven:3.9.6-eclipse-temurin-21
+    volumes:
+      - ./back/diary/:/app
+    working_dir: /app
+    command: mvn test
+    depends_on:
+      - api
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/diary
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+
+  db:
+    container_name: db_diary
+    image: mysql:8.0
+    expose:
+      - "3306"
     restart: unless-stopped
     volumes:
       - ./data_mysql:/var/lib/mysql
