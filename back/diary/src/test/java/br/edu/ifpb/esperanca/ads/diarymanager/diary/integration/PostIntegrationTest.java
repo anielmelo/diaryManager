@@ -54,7 +54,7 @@ public class PostIntegrationTest {
         ResponseEntity<PostResponseDTO> response = testRestTemplate
                 .exchange(baseUrl, HttpMethod.POST, request, PostResponseDTO.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("My Post", response.getBody().title());
     }
@@ -86,7 +86,7 @@ public class PostIntegrationTest {
         Post savedPost = postRepository.save(post);
 
         PostRequestDTO dto = new PostRequestDTO("Updated Title", "Updated text.", VALID_IMAGE);
-        
+
         HttpEntity<PostRequestDTO> request = new HttpEntity<>(dto);
 
         ResponseEntity<PostResponseDTO> response = testRestTemplate
@@ -103,7 +103,20 @@ public class PostIntegrationTest {
         ResponseEntity<Void> response = testRestTemplate
                 .exchange(baseUrl + savedPost.getId(), HttpMethod.DELETE, null, Void.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertFalse(postRepository.findById(savedPost.getId()).isPresent());
+    }
+
+    @Test
+    void testGetPostByIdNotFound() {
+        Long nonExistentId = 9999L;
+
+        ResponseEntity<String> response = testRestTemplate
+                .exchange(baseUrl + nonExistentId, HttpMethod.GET, null, String.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().contains("Post not found for id: " + nonExistentId));
     }
 }
