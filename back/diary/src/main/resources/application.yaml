@@ -9,3 +9,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+# Documentação swagger
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan: br.edu.ifpb.esperanca.ads.diarymanager.diary.controller

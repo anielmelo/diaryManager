@@ -3,7 +3,9 @@ package br.edu.ifpb.esperanca.ads.diarymanager.diary.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.edu.ifpb.esperanca.ads.diarymanager.diary.documentation.PostControllerDocs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,7 @@ import br.edu.ifpb.esperanca.ads.diarymanager.diary.service.IPostService;
 
 @RestController
 @RequestMapping("post")
-public class PostController implements IBaseController<PostRequestDTO, PostResponseDTO, Long> {
+public class PostController implements PostControllerDocs {
     private final IBaseMapper<Post, PostResponseDTO, PostRequestDTO> postMapper;
     private final IPostService postService;
     
@@ -39,14 +41,14 @@ public class PostController implements IBaseController<PostRequestDTO, PostRespo
         Post postCreated = postService.create(postToCreate);
         PostResponseDTO postResponse = postMapper.toDTO(postCreated);
         
-        return ResponseEntity.ok().body(postResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postResponse);
     }
 
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         postService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override
