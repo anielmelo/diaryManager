@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.documentation.PostControllerDocs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,20 +45,21 @@ public class PostController implements PostControllerDocs {
         
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponse);
     }
-
-    @Override
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        postService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
+    
     @Override
     @GetMapping("/")
     public ResponseEntity<List<PostResponseDTO>> findAll() {
         List<Post> allPosts = postService.findAll();
         List<PostResponseDTO> allPostDtos = allPosts.stream().map(postMapper::toDTO).collect(Collectors.toList());
         return ResponseEntity.ok().body(allPostDtos);
+    }
+
+    @Override
+    @GetMapping("/paged")
+    public ResponseEntity<Page<PostResponseDTO>> findAllPaged(Pageable pageable) {
+        Page<Post> posts = postService.findAllPaged(pageable);
+        Page<PostResponseDTO> postPages = posts.map(postMapper::toDTO);
+        return ResponseEntity.ok().body(postPages);
     }
 
     @Override
@@ -75,4 +78,12 @@ public class PostController implements PostControllerDocs {
         PostResponseDTO postResponseDTO = postMapper.toDTO(postUpdated);
         return ResponseEntity.ok().body(postResponseDTO);
     }
+    
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        postService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

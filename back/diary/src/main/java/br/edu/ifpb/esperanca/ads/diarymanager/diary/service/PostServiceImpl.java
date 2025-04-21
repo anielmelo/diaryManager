@@ -5,6 +5,8 @@ import br.edu.ifpb.esperanca.ads.diarymanager.diary.repository.PostRepository;
 import br.edu.ifpb.esperanca.ads.diarymanager.diary.service.exception.PostNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,9 +32,15 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
+    public Page<Post> findAllPaged(Pageable pageable) {
+        Page<Post> page = postRepository.findAll(pageable);
+        return page;
+    }
+
+    @Override
     public Post findById(Long id) {
         return postRepository.findById(id)
-            .orElseThrow(() -> new PostNotFoundException(id));
+                .orElseThrow(() -> new PostNotFoundException(id));
     }
 
     @Override
