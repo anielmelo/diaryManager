@@ -7,14 +7,14 @@ body {
 }
 
 .wrapper {
-    background-color: #FF9A3C; /* fundo laranja */
+    background-color: #FFC37D; /* fundo laranja */
     min-height: 100vh;
     min-width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
   
-    background-image: url('img/Vector1.png'), url('img/Vector2.png');
+    background-image: url('./img/Vector1.png'), url('./img/Vector2.png');
     background-repeat: no-repeat, no-repeat;
     background-position: top center, bottom center;
     background-size: contain, contain;
@@ -35,7 +35,7 @@ body {
     overflow: hidden;
     justify-content: center;
 
-    background-image: url('img/Vector.png'); /* troque pelo seu caminho */
+    background-image: url('./img/Vector.png'); /* troque pelo seu caminho */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: contain;
@@ -67,28 +67,40 @@ body {
     z-index: 1;
     ;
   }
-  
+
   .body {
     padding: 2rem;
     display: flex;
     flex-direction: row;
     gap: 2rem;
-    overflow: auto;
+    overflow: hidden; /* Evitar rolagem extra no body */
+    max-height: 80vh; /* Limitar a altura do corpo para evitar overflow */
   }
+  
   
   .image {
     max-width: 45%;
-    border: 2px solid #000;
+    border: 2px solid #3E3023;
   }
   
+  /* .content {
+    flex: 1;
+    color: #3E3023;
+    font-family: 'Roboto';
+    font-size: 1.1rem;
+    text-align: justify;
+    max-width: 80%;
+    
+  } */
+
   .content {
     flex: 1;
     color: #3E3023;
     font-family: 'Roboto';
     font-size: 1.1rem;
     text-align: justify;
-    
-    
+    max-width: 50%;  /* A largura máxima do conteúdo será 100% do seu container pai */
+    word-wrap: break-word; /* Quebra de palavras longas */
   }
   
   .title {
@@ -98,6 +110,7 @@ body {
     text-align: center;
     max-width: 100%; /* Defina a largura máxima desejada em px, % ou outras unidades */
     word-wrap: break-word;
+    /* max-width: 80%; */
   }
   
   .date {
@@ -116,7 +129,7 @@ body {
   }
 
   .button:hover{
-    background-color: #FF9A3C;
+    background-color: #FFC37D;
   }
 
   .iconButton {
@@ -131,7 +144,7 @@ body {
   }
 
   .postTextContainer {
-    max-width: 100%;
+    /* max-width: 80%; */
     overflow-y: auto;  /* ← ESSENCIAL */
     white-space: normal;
     padding: 1rem;

@@ -17,6 +17,14 @@
   z-index: 0;
 }
 
+.resumo {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .postCard h2, .postCard p, .postCard button {
   position: relative;
   z-index: 1;
