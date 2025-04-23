@@ -1,0 +1,86 @@
+.postCard {
+  position: relative;
+  background: #faf4ec;
+  background-image: url('../assets/Vector.png'); /* A imagem do fundo */
+  background-size: cover; /* Faz a imagem de fundo cobrir todo o card */
+  padding: 16px;
+  color: black;
+  border: 2px solid black;
+  filter: drop-shadow(4px 4px 0px #1e1e1e);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  border-radius: 40px;
+  height: 493.71px;
+  width: 440.28px;
+  z-index: 0;
+}
+
+.postCard h2, .postCard p, .postCard button {
+  position: relative;
+  z-index: 1;
+}
+
+.postCard p {
+  text-align: center;
+  max-width: 90%;
+}
+
+.cardImage {
+  width: 90%;
+  height: 280px;
+  object-fit: cover;
+  border: 2px solid black;
+  filter: drop-shadow(4px 4px 0px #1e1e1e);
+  border-radius: 20px;
+  z-index: 1;
+}
+
+.postCard h2 {
+  font-size: 23.17px;
+  text-align: center;
+  padding: 0px;
+  color: #3e3023;
+  font-weight: 900;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.postCard button {
+  margin-top: 10px;
+  background: #ff7d05;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  padding: 10px;
+  border: 2px solid black;
+  filter: drop-shadow(4px 4px 0px #1e1e1e);
+  cursor: pointer;
+  width: 200px;
+}
+
+.postCard button:hover {
+  background: #ea580c;
+}
+
+
+@media (max-width: 768px) {
+  .postCard {
+    width: 90%;
+    padding: 12px;
+    border-radius: 24px;
+    height: 420px;
+  }
+
+  .cardImage {
+    height: 200px;
+  }
+
+  .postCard h2 {
+    font-size: 18px;
+  }
+
+  .postCard button {
+    width: 100%;
+  }
+}

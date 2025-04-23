@@ -7,5 +7,82 @@ body {
   justify-content: center;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  border-bottom: 2px solid black;
+  padding-bottom: 50px;
+}
+
+.pagination button {
+  padding: 16px;
+  border: 1px solid #000;
+  background-color: #ffffff;
+  filter: drop-shadow(4px 4px 0px #1e1e1e);
+  margin: 0 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 50px;
+  font-weight: 600;
+}
+
+.pagination button:hover {
+  background-color: #f3f3f3;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colunas iguais */
+  gap: 32px; /* Espaço entre os cards */
+  justify-items: center; /* Centraliza os cards na coluna */
+  padding: 32px 206px;
+}*/
 
 
+
+.postCard.first {
+  grid-column: span 2;
+  width: 100%; /* Para garantir que ocupe toda a largura da coluna */
+}
+
+
+.home h1 {
+  font-weight: 900;
+  font-size: 48px;
+  text-align: center;
+  color: #3e3023;
+  padding: 50px;
+}
+
+.home {
+  border: 2px solid black;
+}
+
+.vectorImage {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  position: relative;
+  bottom: 0;
+}
+
+@media (max-width: 1024px) {
+  .post-grid {
+    padding: 32px 64px;
+    grid-template-columns: repeat(2, 1fr); /* tablet */
+  }
+}
+@media (max-width: 768px) {
+  .vectorImage {
+    margin-top: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .post-grid {
+    grid-template-columns: 1fr; /* mobile */
+    padding: 16px;
+  }
+}
