@@ -116,7 +116,11 @@ function PostDetail() {
       )}
       <div className={styles.card}>
         <div className={styles.header}>
-          <button aria-label="Voltar" className={styles.button}>
+          <button
+            aria-label="Voltar"
+            className={styles.button}
+            onClick={() => navigate(-1)} // <- aqui faz ele voltar
+          >
             <FontAwesomeIcon icon={faArrowLeft} color="#3E3023" size="lg" />
           </button>
           <button aria-label="Editar" className={styles.button}>
