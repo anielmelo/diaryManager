@@ -1,0 +1,73 @@
+/* components/ConfirmDeleteModal.module.css */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal {
+    background-color: #fce5c1;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    font-family: sans-serif;
+    border: 5px solid #3e3023;
+    width: 25%;
+    height: 20%;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    border-top: 3px solid #3e3023;
+  }
+  
+  
+  .cancel, .delete {
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    
+  }
+
+  .delete:hover {
+    background-color: #FFC37D;
+    
+  }
+
+  .cancel:hover {
+    background-color: #FFC37D;
+    
+  }
+  
+  .cancel {
+    background: none;
+    color: #3e3023;
+  }
+
+  .h2{
+    border-bottom: 3px solid #3e3023;
+    padding-bottom: 5px;
+  }
+  
+  .delete {
+    background: none;
+    color: #3e3023;
+    border-left: 3px solid #3e3023;
+  }
+  
