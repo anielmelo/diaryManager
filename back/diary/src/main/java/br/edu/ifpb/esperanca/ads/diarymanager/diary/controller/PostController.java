@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("post")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class PostController implements PostControllerDocs {
     private final IBaseMapper<Post, PostResponseDTO, PostRequestDTO> postMapper;
     private final IPostService postService;
