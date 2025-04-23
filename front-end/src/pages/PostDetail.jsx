@@ -73,6 +73,10 @@ import styles from './PostDetail.module.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { deletePostById } from '../api.js';
+import { useNavigate } from 'react-router-dom';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal.jsx';
+
 
 
 
@@ -80,14 +84,56 @@ function PostDetail() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
 
+  const navigate = useNavigate();
+
+  // const handleDelete = async () => {
+  //   const confirmDelete = window.confirm('Tem certeza que deseja excluir este post?');
+  //   if (!confirmDelete) return;
+
+  //   try {
+  //     await deletePostById(id);
+  //     navigate('/'); // volta pra home
+  //   } catch (error) {
+  //     console.error('Erro ao excluir o post:', error);
+  //     alert('Erro ao excluir o post.');
+  //   }
+  // };
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleDelete = async () => {
+    setShowConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deletePostById(id);
+      navigate('/');
+    } catch (error) {
+      console.error('Erro ao excluir o post:', error);
+      alert('Erro ao excluir o post.');
+    }
+  };
+
+
   useEffect(() => {
     getPostById(id).then(setPost);
   }, [id]);
 
   if (!post) return <p>Carregando...</p>;
+  
+
+  
 
   return (
     <div className={styles.wrapper}>
+      {showConfirmModal && (
+        <ConfirmDeleteModal 
+          onConfirm={confirmDelete} 
+          onCancel={() => setShowConfirmModal(false)} 
+        />
+      )}
+
       <div className={styles.card}>
         <div className={styles.header}>
           <button aria-label="Voltar" className={styles.button}>
@@ -97,7 +143,7 @@ function PostDetail() {
             <FontAwesomeIcon icon={faPenToSquare} color="#3E3023" size="lg" />
             <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
           </button>
-          <button aria-label="Excluir" className={styles.button}>
+          <button aria-label="Excluir" className={styles.button} onClick={handleDelete}>
             <FontAwesomeIcon icon={faTrashCan} color="#3E3023" size="lg" />
           </button>
         </div>
