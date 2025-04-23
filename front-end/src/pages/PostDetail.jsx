@@ -1,71 +1,3 @@
-// import { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { getPostById } from '../api.js';
-
-// function PostDetail() {
-//   const { id } = useParams();
-//   const [post, setPost] = useState(null);
-
-//   useEffect(() => {
-//     getPostById(id).then(setPost);
-//   }, [id]);
-
-//   if (!post) return <p>Carregando...</p>;
-
-//   return (
-//     <div className="post-detail">
-//       <h2>{post.title}</h2>
-//       <img src={post.image} alt="Post" />
-//       <p>{post.text}</p>
-//       <p><small>{new Date(post.dataHora).toLocaleString()}</small></p>
-//     </div>
-//   );
-// }
-
-// export default PostDetail;
-
-// import { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { getPostById } from '../api.js';
-// import styles from './PostDetail.module.css';
-
-// function PostDetail() {
-//   const { id } = useParams();
-//   const [post, setPost] = useState(null);
-
-//   useEffect(() => {
-//     getPostById(id).then(setPost);
-//   }, [id]);
-
-//   if (!post) return <p>Carregando...</p>;
-
-//   return (
-//     <div className={styles.container}>
-//       <div className={styles.box}>
-//         <div className={styles.buttons}>
-//           <button>←</button>
-//           <button>✎</button>
-//           <button>🗑️</button>
-//         </div>
-
-//         <div className={styles.imageWrapper}>
-//           <img src={post.image} alt="Post" />
-//         </div>
-
-//         <div className={styles.content}>
-//           <h2>{post.title}</h2>
-//           <p className={styles.date}>
-//             {new Date(post.dataHora).toLocaleDateString()}
-//           </p>
-//           <p className={styles.text}>{post.text}</p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default PostDetail;
-
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../api.js';
@@ -106,7 +38,7 @@ function PostDetail() {
           <div className={styles.content}>
             <div className={styles.title}>{post.title}</div>
             <div className={styles.date}>
-              {new Date(post.dataHora).toLocaleDateString()}
+              <p>{post.createdAt}</p>
             </div>
             <div className={styles.postTextContainer}>{post.text}</div>
           </div>

@@ -1,29 +1,28 @@
-let posts = [];
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:8080/post';
 
 export const getPosts = async () => {
-  return posts;
+  const response = await axios.get(`${API_BASE_URL}/`);
+  return response.data;
 };
 
 export const getPostById = async (id) => {
-  return posts.find((post) => post.id.toString() === id);
+  const response = await axios.get(`${API_BASE_URL}/${id}`);
+  return response.data;
 };
 
 export const createPost = async (formData) => {
   const title = formData.get("title");
   const text = formData.get("text");
-  const imageFile = formData.get("image");
-
-  // Simulando upload da imagem localmente (usando URL.createObjectURL)
-  const imageUrl = URL.createObjectURL(imageFile);
+  const imageUrl = formData.get("image");
 
   const newPost = {
-    id: Date.now(), 
     title,
     text,
-    image: imageUrl, // A imagem é armazenada localmente como URL temporária
-    dataHora: new Date(),
+    image: imageUrl
   };
 
-  posts.push(newPost); // Adiciona o novo post à lista 
-  return newPost; // Retorna o post recém-criado
+  const response = await axios.post(`${API_BASE_URL}/`, newPost);
+  return response.data;
 };
