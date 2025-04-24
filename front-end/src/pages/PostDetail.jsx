@@ -119,14 +119,18 @@ function PostDetail() {
           <button
             aria-label="Voltar"
             className={styles.button}
-            onClick={() => navigate(-1)} // <- aqui faz ele voltar
+            onClick={() => navigate(`/`)} // <- aqui faz ele voltar
           >
             <FontAwesomeIcon icon={faArrowLeft} color="#3E3023" size="lg" />
           </button>
-          <button aria-label="Editar" className={styles.button}>
+          <button 
+            aria-label="Editar" 
+            className={styles.button}
+            onClick={() => navigate(`/post/${id}/editar`)}
+          >
             <FontAwesomeIcon icon={faPenToSquare} color="#3E3023" size="lg" />
-            <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
           </button>
+
           <button aria-label="Excluir" className={styles.button} onClick={handleDelete}>
             <FontAwesomeIcon icon={faTrashCan} color="#3E3023" size="lg" />
           </button>
