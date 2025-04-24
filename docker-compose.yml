@@ -14,23 +14,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin
     restart: unless-stopped
 
-  api-test:
-    container_name: api_diary_test
-    profiles:
-      - test
-    image: maven:3.9.6-eclipse-temurin-21
-    volumes:
-      - ./back/diary/:/app
-    working_dir: /app
-    command: mvn test
-    depends_on:
-      - api
-      - db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/diary
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
-
   db:
     container_name: db_diary
     image: mysql:8.0
@@ -44,3 +27,15 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: admin
+
+  ui:
+    container_name: front_diary_ui
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile.ui
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+      - db
+    restart: unless-stopped
