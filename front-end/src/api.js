@@ -1,67 +1,60 @@
-let posts = [];
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:8080/post';
 
 export const getPosts = async () => {
-  return posts;
+  const response = await axios.get(`${API_BASE_URL}/`);
+  return response.data;
 };
 
 export const getPostById = async (id) => {
-  return posts.find((post) => post.id.toString() === id);
+  const response = await axios.get(`${API_BASE_URL}/${id}`);
+  return response.data;
 };
 
 export const createPost = async (formData) => {
   const title = formData.get("title");
   const text = formData.get("text");
-  const imageFile = formData.get("image");
-
-  // Simulando upload da imagem localmente (usando URL.createObjectURL)
-  const imageUrl = URL.createObjectURL(imageFile);
+  const imageUrl = formData.get("image");
 
   const newPost = {
-    id: Date.now(), 
     title,
     text,
-    image: imageUrl, // A imagem é armazenada localmente como URL temporária
-    dataHora: new Date(),
+    image: imageUrl
   };
 
-  posts.push(newPost); // Adiciona o novo post à lista 
-  return newPost; // Retorna o post recém-criado
+  const response = await axios.post(`${API_BASE_URL}/`, newPost);
+  return response.data;
 };
 
+// ----------------------------------------------------
+// Agora delete e update usando API via HTTP:
+
 export const deletePostById = async (id) => {
-  const index = posts.findIndex((post) => post.id.toString() === id);
-  if (index !== -1) {
-    posts.splice(index, 1); // Remove o post do array
-    return true;
-  } else {
-    throw new Error('Post não encontrado');
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/${id}`);
+    return response.data;  // pode ser uma mensagem ou objeto, depende da API
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Erro ao deletar o post');
   }
 };
 
 export const updatePostById = async (id, formData) => {
-  const postIndex = posts.findIndex((post) => post.id.toString() === id);
-
-  if (postIndex === -1) {
-    throw new Error('Post não encontrado');
-  }
-
   const title = formData.get("title");
   const text = formData.get("text");
-  const imageFile = formData.get("image");
+  const image = formData.get("image"); // já é texto/URL
 
-  // Atualiza os dados existentes
-  posts[postIndex].title = title;
-  posts[postIndex].text = text;
+  const updatedPost = {
+    title,
+    text,
+    image
+  };
 
-  if (imageFile) {
-    // Se uma nova imagem foi fornecida, cria nova URL temporária
-    const imageUrl = URL.createObjectURL(imageFile);
-    posts[postIndex].image = imageUrl;
+  try {
+    const response = await axios.put(`${API_BASE_URL}/${id}`, updatedPost);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Erro ao atualizar o post');
   }
-
-  return posts[postIndex]; // Retorna o post atualizado
 };
-
-
-
 

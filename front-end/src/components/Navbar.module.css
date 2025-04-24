@@ -28,3 +28,8 @@
 .navbarList li a:hover {
   color: #ffffff;
 }
+
+.h2{
+  align-self: center;
+  text-align: center;
+}

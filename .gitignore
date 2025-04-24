@@ -1,2 +1,4 @@
 .vscode
 data_mysql
+front-end/node_modules
+.idea

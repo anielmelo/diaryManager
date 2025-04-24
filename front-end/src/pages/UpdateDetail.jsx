@@ -23,8 +23,8 @@ function UpdateDetail() {
       await deletePostById(id);
       navigate('/');
     } catch (error) {
-        console.error('Erro ao excluir o post:', error);
-        alert('Erro ao excluir o post: ' + error.message);
+        console.error('Erro ao atualizar o post:', error);
+        alert('Erro ao atualizar o post: ' + error.message);
     }
   };
 
@@ -33,8 +33,8 @@ function UpdateDetail() {
       await updatePostById(id, formData);
       navigate(`/post/${id}`);
     } catch (error) {
-        console.error('Erro ao excluir o post:', error);
-        alert('Erro ao excluir o post: ' + error.message);
+        console.error('Erro ao atualizar o post:', error);
+        alert('Erro ao atualizar o post: ' + error.message);
     }
   };
 
@@ -48,8 +48,6 @@ function UpdateDetail() {
           onCancel={() => setShowConfirmModal(false)} 
         />
       )}
-
-      
 
       <UpdateForm postData={post} onSubmit={handleUpdate} />
     </div>

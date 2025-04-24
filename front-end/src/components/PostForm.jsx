@@ -5,7 +5,7 @@ import styles from './PostForm.module.css';
 
 function PostForm({ onAddPost }) {
   const [title, setTitle] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  const [image, setImage] = useState("");
   const [text, setText] = useState("");
 
   const handleSubmit = async (e) => {
@@ -14,14 +14,14 @@ function PostForm({ onAddPost }) {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("text", text);
-    formData.append("image", imageFile);
+    formData.append("image", image);
 
     const created = await createPost(formData);
     onAddPost(created);
 
     setTitle("");
     setText("");
-    setImageFile(null);
+    setImage("");
   };
 
   return (
@@ -32,15 +32,16 @@ function PostForm({ onAddPost }) {
       <input
         type="text"
         value={title}
-        maxLength={50}
+        maxLength={25}
         onChange={(e) => setTitle(e.target.value)}
         required
       />
       <p>Imagem</p>
       <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setImageFile(e.target.files[0])}
+        type="text"
+        value={image}
+        maxLength={100}
+        onChange={(e) => setImage(e.target.value)}
         required
       />
       <p>Texto Completo</p>

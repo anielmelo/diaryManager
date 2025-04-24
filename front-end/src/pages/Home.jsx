@@ -39,7 +39,7 @@ function Home() {
 
   return (
     <div className="home">
-      <Navbar /> {/* Incluindo a Navbar no componente Home */}
+      <Navbar /> 
       <h1>Postagens</h1>
 
       {posts.length === 0 ? (
