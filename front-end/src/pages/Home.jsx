@@ -1,44 +1,45 @@
 import { useEffect, useState } from "react";
-import { getPosts } from "../api.js"; // Ajuste a importação se necessário
+import { getPosts } from "../api.js";
 import PostForm from "../components/PostForm.jsx";
-import PostCard from "../components/PostCard.jsx";
+import PostCard from "../components/PostCard.jsx";  // Não esqueça de importar o PostCard
+import vectorImg from "../assets/Vector2.png";
+import Navbar from "../components/Navbar.jsx";
 
 function Home() {
-  const [posts, setPosts] = useState([]); // Inicializa com um array vazio
+  const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const data = await getPosts(); // Obtém os posts da "API"
+      const data = await getPosts();
       if (data.length > 0) {
-        setPosts(data); // Se houver posts, atualiza o estado
+        setPosts(data);
       }
     };
 
-    fetchPosts(); // Chama a função para carregar os posts ao montar o componente
-  }, []); // A dependência vazia faz isso rodar apenas uma vez
+    fetchPosts();
+  }, []);
 
-  // Paginação
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Gerar números de página
   const pageNumbers = Array.from(
     { length: Math.ceil(posts.length / postsPerPage) },
     (_, i) => i + 1
   );
 
-  // Adicionar um novo post
   const handleAddPost = (newPost) => {
+    console.log("Novo post adicionado:", newPost);  // Log para depuração
     setPosts((prevPosts) => [newPost, ...prevPosts]); // Adiciona o novo post no início
   };
 
   return (
     <div className="home">
+      <Navbar /> 
       <h1>Postagens</h1>
 
       {posts.length === 0 ? (
@@ -63,7 +64,13 @@ function Home() {
         ))}
       </div>
 
-      <PostForm onAddPost={handleAddPost} />
+      <div className="Form">
+        <PostForm onAddPost={handleAddPost} />
+      </div>
+
+      <div>
+        <img src={vectorImg} alt="Descrição da imagem" className="vectorImage" />
+      </div>
     </div>
   );
 }
